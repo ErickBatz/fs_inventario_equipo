@@ -1,0 +1,5 @@
+rol_id,nombre,descripcion
+1,Administrador,Acceso total al sistema
+2,Técnico IT,Acceso a gestión de inventario y equipos
+3,Usuario Normal,Acceso solo a consulta de equipos asignados
+4,Auditor,Acceso de lectura a reportes e inventario
