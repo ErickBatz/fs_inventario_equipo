@@ -35,7 +35,6 @@
                     <tr>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Empleado ID</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Apellido</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Teléfono</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Puesto ID</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha de nacimiento</th>
@@ -52,9 +51,8 @@
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><?php echo($empleado["empleado_id"]);?></td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo($empleado["nombre"]); ?></td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo($empleado["apellido"]); ?></td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo($empleado["telefono"]);?></td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo($empleado["puesto_id"]);?></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo($empleado["Puesto"]);?></td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo($empleado["fecha_nacimiento"]);?></td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex gap-2">

@@ -1,3 +1,12 @@
+<?php
+    //usamos la conexiones que necesitaremos como la conexion de la bse de datos y la clase que manipula los datos 
+    require_once("conexion/conexion.php");
+    require_once("clases/Puesto.php");
+
+    $lst_puesto = Puesto::obtenerPuestos($conexion);
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -21,11 +30,7 @@
         <section class="rounded-xl bg-white p-6 shadow-md sm:p-8">
             <form action="objetos/agregarEmpleado.php" method="post" class="space-y-6">
                 <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-                    <div>
-                        <label for="num_empleadoID" class="mb-2 block text-sm font-medium text-gray-700">ID de Empleado</label>
-                        <input type="number" id="num_empleadoID" name="num_empleadoID" required class="block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
-                    </div>
-
+                   
                     <div>
                         <label for="txt_empleadoName" class="mb-2 block text-sm font-medium text-gray-700">Nombre de empleado</label>
                         <input type="text" id="txt_empleadoName" name="txt_empleadoName" required class="block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
@@ -42,8 +47,23 @@
                     </div>
 
                     <div>
-                        <label for="num_puesto" class="mb-2 block text-sm font-medium text-gray-700">Puesto</label>
-                        <input type="number" name="num_puesto" id="num_puesto" required class="block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                        <label for="lst_puesto" class="mb-2 block text-sm font-medium text-gray-700">Puesto</label>
+                        <div class="relative">
+                            <select name="lst_puesto" id="lst_puesto" required class="block w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2.5 pr-10 text-gray-900 outline-none transition duration-200 hover:border-blue-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                                <option value="" selected disabled>Selecciona un puesto</option>
+                            <?php 
+                                foreach($lst_puesto as $puesto):
+                            ?>
+                                <option value="<?php echo($puesto["puesto_id"]) ?>"><?php echo($puesto["puesto"]) ?></option>
+                            <?php 
+                                endforeach;
+                            ?>
+                            </select>
+                            <svg class="pointer-events-none absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m19 9-7 7-7-7" />
+                            </svg>
+                        </div>
+
                     </div>
 
                     <div>
@@ -54,7 +74,7 @@
 
                 <div class="flex justify-end gap-3 border-t border-gray-200 pt-6">
                     <a href="usuarios.php" class="rounded-lg bg-gray-200 px-4 py-2 font-bold text-gray-700 transition-all duration-300 hover:bg-gray-300">Cancelar</a>
-                    <button type="submit" class="rounded-lg bg-green-500 px-4 py-2 font-bold text-white transition-all duration-300 hover:bg-green-700">Guardar usuario</button>
+                    <button type="submit" class="rounded-lg bg-green-500 px-4 py-2 font-bold text-white transition-all duration-300 hover:bg-green-700">Guardar Empleado</button>
                 </div>
             </form>
         </section>

@@ -31,7 +31,11 @@
 
         public static function obtenerRegistros($db){
             try {
-                $sql ="SELECT * FROM empleados";
+                $sql ='SELECT empleados.empleado_id, CONCAT(empleados.nombre," ",empleados.apellido) AS nombre, empleados.      telefono , puestos.puesto AS Puesto,
+                            empleados.fecha_nacimiento FROM empleados 
+                    INNER JOIN puestos
+                    ON puestos.puesto_id = empleados.puesto_id
+                    ORDER BY empleados.empleado_id ASC';
                 $stmt = $db->prepare($sql);
                 $stmt->execute();
 
@@ -41,17 +45,40 @@
             }
 
         }
+
+        public static function obtenerEmpleadosSinUsuario($db){
+            
+            try{
+                $sql = 'SELECT empleados.empleado_id,
+                        CONCAT(empleados.nombre, " ", empleados.apellido) AS nombre
+                        FROM empleados
+                        LEFT JOIN usuarios
+                        ON usuarios.usuario_id = empleados.empleado_id
+                        WHERE usuarios.usuario_id IS NULL
+                        ORDER BY empleados.nombre ASC';
+                $stmt= $db->prepare($sql);
+                $stmt->execute();
+
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            }  catch(PDOException $e){
+                    return[];
+            }
+
+        }
+
+
         public function insertarDatos(){
             $sql="INSERT INTO empleados (nombre, apellido, telefono, puesto_id, fecha_nacimiento) 
                 VALUES (:nombre,:apellido,:telefono,:puestoId,:fechaNacimiento)";
             $stmt = $this->conexion->prepare($sql);
             //vincular los parametros o valores que se necesitan almacenar con (variables de la consulta preparada 
             //(:nombres,:apellido,:telefono,:puestoId,:fechaNacimiento)
-             $stmt->bindParam(':nombre,$this->nombre');
-             $stmt->bindParam(':apellido,$this->apellido');
-             $stmt->bindParam(':telefono,$this->telefono');
-             $stmt->bindParam(':puestoId,$this->puestoId');
-             $stmt->bindParam(':fechaNacimiento,$this->fechaNacimiento');
+             $stmt->bindParam(':nombre' ,$this->nombre);
+             $stmt->bindParam(':apellido',$this->apellido);
+             $stmt->bindParam(':telefono',$this->telefono);
+             $stmt->bindParam(':puestoId',$this->puestoId);
+             $stmt->bindParam(':fechaNacimiento',$this->fechaNacimiento);
 
              return $stmt->execute();
         }
