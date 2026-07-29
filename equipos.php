@@ -1,9 +1,9 @@
 <?php
 //utilizar el archivo de conexion y la clase region 
    require_once("conexion/conexion.php");
-require_once("clases/Usuarios.php");
+    require_once("clases/Equipo.php");
     //crear un objeto que permita llamar al metodo obtenerRegistros
-    $listaUsuario = Usuario::obtnerRegistros($conexion);
+    $listaEquipos = Equipo::obtenerEquipos($conexion);
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +24,7 @@ require_once("clases/Usuarios.php");
                 <p class="mt-2 text-lg text-gray-600">Gestiona los Equipos del sistema.</p>
             </div>
             <div class="flex gap-3">
-                <a href="formUser.php" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition-all duration-300">
+                <a href="agregar/formEquipo.php" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition-all duration-300">
                     Agregar Equipo
                 </a>
                 <a href="index.html" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-all duration-300">
@@ -46,23 +46,35 @@ require_once("clases/Usuarios.php");
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Empleado</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     <!-- Fila de ejemplo 1 -->
                     <?php 
-                        foreach($listaUsuario as $usuario){ 
+                        foreach($listaEquipos as $equipo){ 
                     ?>
                     <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><?php echo($usuario["usuario_id"]);?></td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo($usuario["usuario"]);?></td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo($usuario["email"]); ?></td>
-                        <td class="px-6 py-4 whitespace-nowrap"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"><?php echo($usuario["estado"]); ?></span></td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo($usuario["rol"]); ?></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><?php echo($equipo["equipo_id"]);?></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo($equipo["no_serie"]);?></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo($equipo["marca"]); ?></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"><?php echo($equipo["descripcion"]); ?></span></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo($equipo["fecha_compra"]); ?></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo($equipo["precio"]); ?></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo($equipo["tipo"]); ?></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo($equipo["empleado"] ?: 'No asignado'); ?></td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex gap-2">
-                                <button type="button" class="rounded bg-amber-500 px-3 py-1 text-xs font-semibold text-white hover:bg-amber-600">Actualizar</button>
-                                <button type="button" class="rounded bg-red-500 px-3 py-1 text-xs font-semibold text-white hover:bg-red-700">Eliminar</button>
+                                <a href="actualizar/actualizarEquipo.php?id=<?php echo $equipo['equipo_id']; ?>" class="rounded bg-amber-500 px-3 py-1 text-xs font-semibold text-white hover:bg-amber-600">
+                                    Actualizar
+                                </a>
+                                <form action="objetos/agregarEquipo.php" method="POST" onsubmit="return confirm('¿Eliminar este equipo?');">
+                                    <input type="hidden" name="accion" value="eliminar">
+                                    <input type="hidden" name="equipo_id" value="<?php echo $equipo['equipo_id']; ?>">
+                                    <button type="submit" class="rounded bg-red-500 px-3 py-1 text-xs font-semibold text-white hover:bg-red-700">
+                                        Eliminar
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>

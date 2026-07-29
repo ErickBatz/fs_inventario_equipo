@@ -1,12 +1,10 @@
 <?php
     //usamos la conexiones que necesitaremos como la conexion de la bse de datos y la clase que manipula los datos 
-    require_once("conexion/conexion.php");
-    require_once("clases/Puesto.php");
+    require_once("../conexion/conexion.php");
+    require_once("../clases/Puesto.php");
 
     $lst_puesto = Puesto::obtenerPuestos($conexion);
 ?>
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -22,18 +20,19 @@
                 <h1 class="text-4xl font-bold text-gray-800">Agregar Empleado</h1>
                 <p class="mt-2 text-lg text-gray-600">Completa los campos para registrar un nuevo empleado.</p>
             </div>
-            <a href="empleados.php" class="rounded-lg bg-blue-500 px-4 py-2 font-bold text-white transition-all duration-300 hover:bg-blue-700">
+            <a href="../empleados.php" class="rounded-lg bg-blue-500 px-4 py-2 font-bold text-white transition-all duration-300 hover:bg-blue-700">
                 Volver a empleados
             </a>
         </header>
 
         <section class="rounded-xl bg-white p-6 shadow-md sm:p-8">
-            <form action="objetos/agregarEmpleado.php" method="post" class="space-y-6">
+            <form action="../objetos/agregarEmpleado.php" method="post" class="space-y-6">
+                <input type="hidden" name="accion" value="guardar">
                 <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
                    
                     <div>
-                        <label for="txt_empleadoName" class="mb-2 block text-sm font-medium text-gray-700">Nombre de empleado</label>
-                        <input type="text" id="txt_empleadoName" name="txt_empleadoName" required class="block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                        <label for="txt_nombre" class="mb-2 block text-sm font-medium text-gray-700">Nombre de empleado</label>
+                        <input type="text" id="txt_nombre" name="txt_nombre" required class="block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
                     </div>
 
                     <div>

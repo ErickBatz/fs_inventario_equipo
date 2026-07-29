@@ -10,6 +10,9 @@
         private $conexion;
 
         //metodos
+        public function setEmpleadoID($empleadoId){
+            $this->empleadoId = $empleadoId;
+        }
         public function setNombre($nombre){
             $this->nombre = $nombre;
         }
@@ -31,11 +34,11 @@
 
         public static function obtenerRegistros($db){
             try {
-                $sql ='SELECT empleados.empleado_id, CONCAT(empleados.nombre," ",empleados.apellido) AS nombre, empleados.      telefono , puestos.puesto AS Puesto,
+                $sql ='SELECT empleados.empleado_id,CONCAT (empleados.nombre, " ", empleados.apellido) AS nombreCompleto,empleados.nombre,  empleados.apellido, empleados.      telefono , puestos.puesto AS Puesto,
                             empleados.fecha_nacimiento FROM empleados 
                     INNER JOIN puestos
                     ON puestos.puesto_id = empleados.puesto_id
-                    ORDER BY empleados.empleado_id ASC';
+                    ORDER BY empleados.empleado_id ASC;';
                 $stmt = $db->prepare($sql);
                 $stmt->execute();
 
@@ -81,6 +84,39 @@
              $stmt->bindParam(':fechaNacimiento',$this->fechaNacimiento);
 
              return $stmt->execute();
+        }
+
+        public function actualizarDatos() {
+          
+          $sql = "UPDATE empleados 
+                    SET nombre = :nombre, 
+                        apellido = :apellido, 
+                        telefono = :telefono, 
+                        puesto_id = :puestoId, 
+                        fecha_nacimiento = :fechaNacimiento 
+                    WHERE empleado_id = :id";
+
+            $stmt = $this->conexion->prepare($sql);
+
+            // Vinculamos los valores a actualizar desde las propiedades del objeto
+            $stmt->bindParam(':nombre', $this->nombre);
+            $stmt->bindParam(':apellido', $this->apellido);
+            $stmt->bindParam(':telefono', $this->telefono);
+            $stmt->bindParam(':puestoId', $this->puestoId);
+            $stmt->bindParam(':fechaNacimiento', $this->fechaNacimiento);
+            
+            // Es indispensable vincular el ID del registro que se va a modificar
+            $stmt->bindParam(':id', $this->empleadoId);
+            return $stmt->execute();    
+        }
+
+             public function eliminarDatos() {
+                $sql = "DELETE FROM empleados WHERE empleado_id = :id";
+                
+                $stmt = $this->conexion->prepare($sql);
+                $stmt->bindParam(':id', $this->empleadoId);
+                
+                return $stmt->execute();
         }
     }
 

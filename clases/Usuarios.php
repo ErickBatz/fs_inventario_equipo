@@ -49,6 +49,12 @@
             }
 
         }
+        public static function obtenerUsuariosPorID($conexion, $id){
+            $sql ='SELECT * FROM usuarios WHERE usuario_id = ?';
+            $stmt = $conexion->prepare($sql);
+            $stmt->execute([$id]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
 
         public function insertarUsuario(){
            
@@ -69,6 +75,37 @@
            }
            
 
+        }
+
+        public function actualizarDatos() {
+          
+          $sql = "UPDATE usuarios 
+                    SET usuario = :usuario, 
+                        email = :email, 
+                        contrasenia = :contrasenia, 
+                        estado = :estado, 
+                        rol_id = :rol 
+                    WHERE usuario_id = :id";
+
+            $stmt = $this->conexion->prepare($sql);
+
+            // Vinculamos los valores a actualizar desde las propiedades del objeto
+            $stmt->bindParam(':usuario', $this->usuario);
+            $stmt->bindParam(':email', $this->email);
+            $stmt->bindParam(':contrasenia', $this->contrasenia);
+            $stmt->bindParam(':estado', $this->estado);
+            $stmt->bindParam(':rol', $this->rol);
+            
+            // Es indispensable vincular el ID del registro que se va a modificar
+            $stmt->bindParam(':id', $this->usuario_id);
+            return $stmt->execute();    
+        }
+
+        public function eliminarDatos() {
+            $sql = "DELETE FROM usuarios WHERE usuario_id = :id";
+            $stmt = $this->conexion->prepare($sql);
+            $stmt->bindParam(':id', $this->usuario_id);
+            return $stmt->execute();
         }
     }
 
